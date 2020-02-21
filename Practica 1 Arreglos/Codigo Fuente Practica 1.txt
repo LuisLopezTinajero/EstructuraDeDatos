@@ -1,0 +1,161 @@
+#include <stdio.h>
+#define TAM 5
+void menu();
+void ver_articulos();
+void agregar();
+void eliminar();
+void ver_carrito();
+
+
+char *articulos[TAM]= {"Guitarra","Bajo","Violin","Flauta","Bateria"};
+int cantidad[TAM]= {10,10,10,10,10};
+int precio[TAM]= {1500,2000,900,300,4000};
+int carrito[TAM]= {0,0,0,0,0};
+
+
+int main()
+{
+    menu();
+    return 0;
+}
+
+
+void menu() 
+{
+    int opcion=0;
+     do
+	 {
+        printf("\tCarrito\n");
+
+        printf("\nSeleccione una opcion:\n");
+        printf("1)Articulos Disponibles\n");
+        printf("2)Agregar Articulo(s)\n");
+        printf("3)Eliminar articulo(s)\n");
+        printf("4)Mostrar carrito\n");
+        printf("5)Salir\n");
+        
+        if(scanf("%d",&opcion)==1)
+		{
+            switch(opcion) 
+			{
+            	case 1:
+                	ver_articulos();
+                break;
+                
+            	case 2:
+                	agregar();
+                break;
+            
+				case 3:
+                	eliminar();
+                break;
+            	
+				case 4:
+                	ver_carrito();
+                break;        
+            }
+		}
+		else
+		{
+			getchar();
+		}		
+    }while(opcion!=5);
+}
+
+
+void ver_articulos() 
+{
+    int i=0;
+    
+    for( ; i<TAM; i++) 
+	{
+        printf("%d\t%s\t\t%d\n",(i+1),articulos[i],cantidad[i] );
+    }
+}
+
+
+void agregar() 
+{   
+    ver_carrito();
+    int opcion,contador;
+    
+    printf("\nSeleccione el articulo que desee agregar\n");
+    
+    if(scanf("%d",&opcion)==1) {
+        printf("Cuantos articulos deseas agregar?");
+        if(scanf("%d",&contador)==1) 
+		{
+            if(contador<=cantidad[opcion-1]) 
+			{
+                carrito[opcion-1]=carrito[opcion-1]+contador;
+                cantidad[opcion-1]=cantidad[opcion-1]-contador;
+            }
+            else
+            {
+            	printf("No hay suficientes articulos\n");
+			}
+        }
+        else
+		{
+        printf("Ingresar un Numero\n");
+        }
+    }
+    else
+    {
+    printf("Ingresa un Numero\n");
+    }
+}
+
+
+void eliminar() 
+{
+    ver_carrito();
+    int opcion,contador;
+    
+    printf("Seleccione el articulo que desee eliminar\n");
+    
+    if(scanf("%d",&opcion)==1) 
+	{
+		if(carrito[opcion-1]>0)
+		{
+        	printf("Cuantos articulos desea eliminar?");
+        	if(scanf("%d",&contador)==1) 
+			{
+            	if(contador<=cantidad[opcion-1]) 
+				{
+                	carrito[opcion-1]=carrito[opcion-1]-contador;
+                	cantidad[opcion-1]=cantidad[opcion-1]+contador;
+            	}
+            	else
+            	{
+            	printf("No hay suficientes articulos\n");
+            	}
+        	}
+        }
+        else
+        {
+			printf("No has agregado ese objeto\n");	
+        }
+        
+    }
+    else
+    {
+    printf("Ingresa un Numero\n");
+    }
+}
+
+
+void ver_carrito() 
+{
+    int pt=0;
+    int i=0;
+    
+    printf("Producto\tCantidad\tPrecioIndividual\tTotal\n");
+    
+    for(i ; i<TAM; i++) 
+	{
+        printf("%d)%s\t\t%d\t\t%d\t\t\t%d\n",(i+1),articulos[i],carrito[i],precio[i],carrito[i]*precio[i]);
+        pt=pt+(precio[i]*carrito[i]);
+    }
+    printf("\n\t\t\t\t\t\t\tTotal: %d\n",pt);
+}
